@@ -232,8 +232,8 @@ def print_entry(key, value, tab):
         print_tabbed(f'{key + ":": <10}{value}', tab)
 
 
-username = "2844532281"
-password = "whd123456"
+username = os.environ["SMART_RULE_DEVICE_USERNAME"]
+password = os.environ["SMART_RULE_DEVICE_PASSWORD"]
 servers = ["cn"]
 
 connector = XiaomiCloudConnector(username, password)

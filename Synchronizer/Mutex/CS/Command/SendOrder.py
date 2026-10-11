@@ -11,6 +11,8 @@ from Crypto.Cipher import ARC4
 
 import requests
 
+CA_CERT = os.environ.get("SMART_RULE_CA_CERT", True)
+
 if platform != "win32":
     import readline
 
@@ -147,7 +149,7 @@ class XiaomiCloudConnector:
         signed_nonce = self.signed_nonce(nonce)
         fields = self.generate_enc_params(url, "POST", signed_nonce, nonce, params, self._ssecurity)
         response = self._session.post(url, headers=headers, cookies=cookies, params=fields, proxies=proxies,
-                                      verify="E:\研究生信息收集\论文材料\IoT-Event-Detector\Detector\Mutex\Atomicity\MiJia\CriticalSection\Data\Desktop.pem")
+                                      verify=CA_CERT)
         if response.status_code == 200:
             decoded = self.decrypt_rc4(self.signed_nonce(fields["_nonce"]), response.text)
             return decoded
@@ -233,8 +235,8 @@ def print_entry(key, value, tab):
         print_tabbed(f'{key + ":": <10}{value}', tab)
 
 
-username = "2844532281"
-password = "whd123456"
+username = os.environ["SMART_RULE_DEVICE_USERNAME"]
+password = os.environ["SMART_RULE_DEVICE_PASSWORD"]
 servers = ["cn"]
 
 connector = XiaomiCloudConnector(username, password)

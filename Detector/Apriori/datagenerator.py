@@ -1,4 +1,5 @@
 import copy
+import ast
 import Apriori
 from numpy.random import seed
 from numpy.random import randint
@@ -57,7 +58,7 @@ whd = [
     {"score":4,"Trigger":["SmartLifePIRmotionsensor3", 2], "Condition": [], "Action":[["YeelightCeilingLamp5",0],["YeelightCeilingLamp6",0]],"description":"If PIR motion senser(21) detects person, turn on Yeelight Ceiling Lamp (15-16)", "triggerType":2 },
     {"score":3,"Trigger":["SmartLifePIRmotionsensor1", 3], "Condition": [], "Action":[["YeelightCeilingLamp1",1], ["YeelightCeilingLamp2",1]],"description":"Every 30 minutes check PIR motion sensor(19), if 1h since last person detected, close lamp (12-13)", "triggerType":2 },
     {"score":3,"Trigger":["SmartLifePIRmotionsensor2", 3], "Condition": [], "Action":[["YeelightCeilingLamp3",1],["YeelightCeilingLamp5",1]],"description":"Every 30 minutes check PIR motion sensor(20), if 1h since last person detected, close lamp (13-14)", "triggerType":2 },
-    {"score":3,"Trigger":["SmartLifePIRmotionsensor3", 3], "Condition": [], "Action":[["YeelightCeilingLamp5",1],["YeelightCeilingLamp6",1]],"description":"Every 30 minutes check PIR motion sensor21, if 1h since last person detected, close lamp 15\&16", "triggerType":2},
+    {"score":3,"Trigger":["SmartLifePIRmotionsensor3", 3], "Condition": [], "Action":[["YeelightCeilingLamp5",1],["YeelightCeilingLamp6",1]],"description":"Every 30 minutes check PIR motion sensor21, if 1h since last person detected, close lamp 15 and 16", "triggerType":2},
     {"score":2,"Trigger":["MijiaCurtain1", 0], "Condition": [], "Action":[["YeelightCeilingLamp5", 1]],"description":"If curtain(1) is open when between 8am and 5pm, turn off Yeelight(15)", "triggerType":3},
     {"score":2,"Trigger":["MijiaCurtain2", 0], "Condition": [], "Action":[["YeelightCeilingLamp6", 1]],"description":"If curtain(2) is open when between 8am and 5pm, turn off Yeelight(16)", "triggerType":3},
     # {"score":4,"Trigger":["time", "0"], "Condition": ["time", "000000"], "Action":[["YeelightBulb",1], ["PhilipsHueLight", 1], ["WemoSmartPlug", 1], ["YeelightCeilingLamp1",1], ["YeelightCeilingLamp2",1],["YeelightCeilingLamp3",1],["YeelightCeilingLamp5",1],["YeelightCeilingLamp6",1], ["MijiaCurtain1", 1], ["MijiaCurtain2", 1], ["MijiaPurifier", 1], ["MijiaProjector", 1]],"description":"When 12pm, turn off all the light(3,9,12-16) and plug(17) and Mijia projecter(23), Mijia purifier(22), curtain(1-2).", "triggerType":0},
@@ -308,7 +309,7 @@ def getDeviceStatus(deviceList):
     config = configparser.ConfigParser()
     config.read(statePath)
     p_default = config['DEFAULT']
-    p_default = eval('[' + p_default['ATlist'] + ']')
+    p_default = ast.literal_eval('[' + p_default['ATlist'] + ']')
 
     tmp = {}
     if len(p_default) != 0:

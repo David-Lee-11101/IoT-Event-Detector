@@ -1,5 +1,6 @@
 import configparser
 import copy
+import ast
 import logging
 import os
 import json
@@ -96,7 +97,7 @@ def getDeviceStatus(deviceList):
         config = configparser.ConfigParser()
         config.read(statePath)
         p_default = config['DEFAULT']
-        p_default = eval('[' + p_default['ATlist'] + ']')
+        p_default = ast.literal_eval('[' + p_default['ATlist'] + ']')
 
         tmp = {}
         if len(p_default) != 0:

@@ -1,4 +1,5 @@
 from time import time
+import os
 
 import mysql.connector
 import json
@@ -10,10 +11,10 @@ import StatusMapping
 def connect_to_mysql():
     try:
         connection = mysql.connector.connect(
-            host="114.55.74.144",
-            user="root",
-            password="Root123456.",
-            database="rule_db",
+            host=os.environ["SMART_RULE_MYSQL_HOST"],
+            user=os.environ.get("SMART_RULE_MYSQL_USER", "root"),
+            password=os.environ["SMART_RULE_MYSQL_PASSWORD"],
+            database=os.environ.get("SMART_RULE_MYSQL_DATABASE", "rule_db"),
             autocommit=True
         )
         return connection
@@ -26,9 +27,9 @@ def connect_to_mysql():
 def create_database():
     try:
         connection = mysql.connector.connect(
-            host="114.55.74.144",
-            user="root",
-            password="Root123456."
+            host=os.environ["SMART_RULE_MYSQL_HOST"],
+            user=os.environ.get("SMART_RULE_MYSQL_USER", "root"),
+            password=os.environ["SMART_RULE_MYSQL_PASSWORD"]
         )
         cursor = connection.cursor()
         cursor.execute("CREATE DATABASE IF NOT EXISTS rule_db")
@@ -70,10 +71,10 @@ def clear_table():
     try:
         # 连接到数据库
         connection = mysql.connector.connect(
-            host="114.55.74.144",
-            user="root",
-            password="Root123456.",
-            database="rule_db"
+            host=os.environ["SMART_RULE_MYSQL_HOST"],
+            user=os.environ.get("SMART_RULE_MYSQL_USER", "root"),
+            password=os.environ["SMART_RULE_MYSQL_PASSWORD"],
+            database=os.environ.get("SMART_RULE_MYSQL_DATABASE", "rule_db")
         )
         cursor = connection.cursor()
 

@@ -1,6 +1,7 @@
 import json
 import random
 import threading
+import os
 from time import sleep, time
 
 import mysql
@@ -92,10 +93,10 @@ def get_execution_order():
     execution_order = []
     try:
         connection = mysql.connector.connect(
-            host="114.55.74.144",
-            user="root",
-            password="Root123456.",
-            database="rule_db"
+            host=os.environ["SMART_RULE_MYSQL_HOST"],
+            user=os.environ.get("SMART_RULE_MYSQL_USER", "root"),
+            password=os.environ["SMART_RULE_MYSQL_PASSWORD"],
+            database=os.environ.get("SMART_RULE_MYSQL_DATABASE", "rule_db")
         )
         cursor = connection.cursor(dictionary=True)
 

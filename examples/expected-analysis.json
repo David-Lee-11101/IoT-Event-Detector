@@ -1,0 +1,63 @@
+{
+  "conflicts": [
+    {
+      "devices": [
+        "curtain"
+      ],
+      "left": "close-curtain",
+      "right": "open-curtain"
+    },
+    {
+      "devices": [
+        "curtain"
+      ],
+      "left": "open-curtain",
+      "right": "close-curtain-backup"
+    }
+  ],
+  "dependencies": [
+    {
+      "devices": [
+        "curtain"
+      ],
+      "source": "close-curtain",
+      "target": "open-curtain"
+    },
+    {
+      "devices": [
+        "curtain"
+      ],
+      "source": "close-curtain",
+      "target": "close-curtain-backup"
+    },
+    {
+      "devices": [
+        "curtain"
+      ],
+      "source": "close-curtain",
+      "target": "notify-curtain-closed"
+    },
+    {
+      "devices": [
+        "curtain"
+      ],
+      "source": "open-curtain",
+      "target": "close-curtain-backup"
+    },
+    {
+      "devices": [
+        "curtain"
+      ],
+      "source": "open-curtain",
+      "target": "notify-curtain-closed"
+    },
+    {
+      "devices": [
+        "curtain"
+      ],
+      "source": "close-curtain-backup",
+      "target": "notify-curtain-closed"
+    }
+  ],
+  "rule_count": 5
+}

@@ -1,4 +1,5 @@
 from time import time
+import os
 
 import mysql.connector
 from mysql.connector import Error
@@ -11,10 +12,10 @@ from Synchronizer.Mutex.LLSC import StatusMapping
 def connect_to_mysql():
     try:
         connection = mysql.connector.connect(
-            host="114.55.74.144",
-            user="root",
-            password="Root123456.",
-            database="rule_db",
+            host=os.environ["SMART_RULE_MYSQL_HOST"],
+            user=os.environ.get("SMART_RULE_MYSQL_USER", "root"),
+            password=os.environ["SMART_RULE_MYSQL_PASSWORD"],
+            database=os.environ.get("SMART_RULE_MYSQL_DATABASE", "rule_db"),
             autocommit=True,
             use_pure=True  # ✅ 这一行强制使用纯 Python 连接器
         )
