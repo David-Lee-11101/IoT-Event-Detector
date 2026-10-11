@@ -1,6 +1,7 @@
 import os
 import numpy as np
 import matplotlib.pyplot as plt
+import ast
 import seaborn as sns
 import matplotlib.lines as mlines
 import matplotlib.patches as mpatches
@@ -15,7 +16,7 @@ NUM_OF_OPERATIONS = [1, 2, 3, 4, 5]  # 扰动次数 (扩展为1~5)
 
 def read_times_list(file_path, discard_under_1=False):
     """
-    从 file_path 中读取数据：每行是一个可 eval() 解析的 list。
+    从 file_path 中读取数据：每行是一个可用安全字面量解析器解析的 list。
     若 discard_under_1=True，则丢弃所有 <1 的数据。
     返回处理后的执行时间列表。
     """
@@ -30,7 +31,7 @@ def read_times_list(file_path, discard_under_1=False):
             if not line:
                 continue
             try:
-                time_list = eval(line)  # 每行是一个 Python 列表
+                time_list = ast.literal_eval(line)  # 每行是一个 Python 列表
                 if discard_under_1:
                     time_list = [t for t in time_list if t >= 1.0]
                 execution_times.extend(time_list)

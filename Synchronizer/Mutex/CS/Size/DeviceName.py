@@ -4,6 +4,7 @@ import threading
 import time
 from time import sleep
 import redis
+import os
 from RuleSet import get_all_rules, DeviceName
 
 # 统计以Device Name（Unique Device），作为临界区的粒度。按照section所需总数，不放回抽样划分出规则组。
@@ -35,7 +36,9 @@ def init_lock():
 
     """初始化 Redis 互斥锁"""
 
-    client = redis.StrictRedis(host="114.55.74.144", port=6379, password='whd123456', decode_responses=True)
+    client = redis.StrictRedis(host=os.environ["SMART_RULE_REDIS_HOST"],
+                               port=int(os.environ.get("SMART_RULE_REDIS_PORT", "6379")),
+                               password=os.environ["SMART_RULE_REDIS_PASSWORD"], decode_responses=True)
     client.flushall()
     print("Redis 已清空")
     return {device_name: RedisMutexLock(client, device_name) for device_name in DeviceName}

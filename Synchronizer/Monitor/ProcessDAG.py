@@ -2,6 +2,7 @@ import networkx as nx
 import ast
 import matplotlib.pyplot as plt
 import matplotlib
+from pathlib import Path
 
 def parse_logs(log_data):
     """
@@ -124,8 +125,8 @@ def visualize_dependency_graph(dependency_graph):
     plt.show()
 
 
-def get_static_DAG():
-    log_file_path = "E:\\研究生信息收集\\论文材料\\IoT-Event-Detector\\Synchronizer\\Monitor\\Data\\static_logs.txt"
+def get_static_DAG(log_file_path=None):
+    log_file_path = Path(log_file_path) if log_file_path else Path(__file__).with_name("Data") / "static_logs.txt"
     try:
         with open(log_file_path, "r", encoding="utf-8") as file:
             log_data = file.read()

@@ -14,6 +14,8 @@ from Crypto.Cipher import ARC4
 import matplotlib.pyplot as plt
 import requests
 
+CA_CERT = os.environ.get("SMART_RULE_CA_CERT", True)
+
 if platform != "win32":
     import readline
 
@@ -200,7 +202,7 @@ class XiaomiCloudConnector:
         signed_nonce = self.signed_nonce(nonce)
         fields = self.generate_enc_params(url, "POST", signed_nonce, nonce, params, self._ssecurity)
         response = self._session.post(url, headers=headers, cookies=cookies, params=fields, proxies=proxies,
-                                      verify="E:\研究生信息收集\论文材料\IoT-Event-Detector\Detector\Mutex\Atomicity\MiJia\CriticalSection\Data\Desktop.pem")
+                                      verify=CA_CERT)
         if response.status_code == 200:
             decoded = self.decrypt_rc4(self.signed_nonce(fields["_nonce"]), response.text)
             return decoded
@@ -326,12 +328,14 @@ def crtiticalSectionTest(frequency, rounds):
     - 初始化 Redis 锁和 XiaomiCloudConnector
     - 创建多个线程并发调用 worker 函数
     """
-    username = "2844532281"
-    password = "whd123456"
+    username = os.environ["SMART_RULE_DEVICE_USERNAME"]
+    password = os.environ["SMART_RULE_DEVICE_PASSWORD"]
     country = "cn"
 
     # 初始化 Redis 锁和连接器
-    redis_lock = RedisLock(host='114.55.74.144', port=6379, password='whd123456')
+    redis_lock = RedisLock(host=os.environ["SMART_RULE_REDIS_HOST"],
+                           port=int(os.environ.get("SMART_RULE_REDIS_PORT", "6379")),
+                           password=os.environ["SMART_RULE_REDIS_PASSWORD"])
     connector = XiaomiCloudConnector(username, password, redis_lock)
 
     print("Logging in...")

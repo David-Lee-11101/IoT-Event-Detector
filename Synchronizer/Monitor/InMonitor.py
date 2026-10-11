@@ -1,4 +1,5 @@
 import subprocess
+import os
 from ProcessDAG import get_static_DAG
 
 
@@ -22,21 +23,9 @@ def execute_with_monitor(java_class_path, log_file_path):
     """
     clear_log_file(log_file_path)  # 先清空日志文件
 
-    # 配置 Java 运行时的 classpath
-    classpath = (
-        "E:\\研究生信息收集\\论文材料\\IoT-Event-Proxy\\target\\classes;"
-        "D:\\apache-maven-3.9.0\\repository\\jakarta\\activation\\jakarta.activation-api\\1.2.1\\jakarta.activation-api-1.2.1.jar;"
-        "D:\\apache-maven-3.9.0\\repository\\com\\fasterxml\\jackson\\module\\jackson-module-jaxb-annotations\\2.12.3\\jackson-module-jaxb-annotations-2.12.3.jar;"
-        "D:\\apache-maven-3.9.0\\repository\\com\\fasterxml\\jackson\\core\\jackson-core\\2.12.3\\jackson-core-2.12.3.jar;"
-        "D:\\apache-maven-3.9.0\\repository\\org\\freemarker\\freemarker\\2.3.31\\freemarker-2.3.31.jar;"
-        "D:\\apache-maven-3.9.0\\repository\\org\\codehaus\\woodstox\\stax2-api\\4.2.1\\stax2-api-4.2.1.jar;"
-        "D:\\apache-maven-3.9.0\\repository\\com\\fasterxml\\jackson\\core\\jackson-annotations\\2.12.3\\jackson-annotations-2.12.3.jar;"
-        "D:\\apache-maven-3.9.0\\repository\\com\\google\\code\\gson\\gson\\2.8.8\\gson-2.8.8.jar;"
-        "D:\\apache-maven-3.9.0\\repository\\com\\fasterxml\\jackson\\core\\jackson-databind\\2.12.3\\jackson-databind-2.12.3.jar;"
-        "D:\\apache-maven-3.9.0\\repository\\com\\fasterxml\\jackson\\dataformat\\jackson-dataformat-xml\\2.12.3\\jackson-dataformat-xml-2.12.3.jar;"
-        "D:\\apache-maven-3.9.0\\repository\\jakarta\\xml\\bind\\jakarta.xml.bind-api\\2.3.2\\jakarta.xml.bind-api-2.3.2.jar;"
-        "D:\\apache-maven-3.9.0\\repository\\com\\fasterxml\\woodstox\\woodstox-core\\6.2.4\\woodstox-core-6.2.4.jar"
-    )
+    classpath = os.environ.get("SMART_RULE_PROXY_CLASSPATH")
+    if not classpath:
+        raise RuntimeError("SMART_RULE_PROXY_CLASSPATH must point to the built scheduler and its dependencies")
 
     try:
         result = subprocess.run(
@@ -94,10 +83,12 @@ def validate_execution_order(dag, execution_order):
     return violations == 0, violations
 
 
-def InMonitor():
+def InMonitor(log_file_path=None):
     # Java 目标类路径
     java_class_path = "concurrency.experiment.InMonitor"
-    log_file_path = "E:\\研究生信息收集\\论文材料\\IoT-Event-Proxy\\src\\main\\java\\concurrency\\experiment\\data\\InMonitorLog.txt"
+    log_file_path = log_file_path or os.environ.get("SMART_RULE_IN_MONITOR_LOG")
+    if not log_file_path:
+        raise RuntimeError("provide log_file_path or SMART_RULE_IN_MONITOR_LOG")
 
     execute_with_monitor(java_class_path, log_file_path)
     execution_order, time_list = read_execution_log(log_file_path)

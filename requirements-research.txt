@@ -1,0 +1,9 @@
+matplotlib==3.8.4
+mysql-connector-python==8.4.0
+networkx==3.2.1
+numpy==1.26.4
+pandas==2.2.2
+pycryptodome==3.20.0
+redis==5.0.4
+requests==2.32.3
+seaborn==0.13.2

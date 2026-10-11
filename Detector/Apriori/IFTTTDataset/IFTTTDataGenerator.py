@@ -1,4 +1,5 @@
 import copy
+import ast
 from Detector.Apriori import Apriori
 from numpy.random import seed
 from numpy.random import randint
@@ -79,7 +80,7 @@ def getDeviceStatus(deviceList):
         config = configparser.ConfigParser()
         config.read(statePath)
         p_default = config['DEFAULT']
-        p_default = eval('[' + p_default['ATlist'] + ']')
+        p_default = ast.literal_eval('[' + p_default['ATlist'] + ']')
 
         # statusMap内层字典是动作与触发状态的组合
         tmp = {}

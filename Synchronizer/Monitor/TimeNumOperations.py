@@ -9,7 +9,7 @@ from Synchronizer.CV.UserScenario import detectRaceCondition_per_epoch
 from Synchronizer.Monitor.ProcessDAG import get_static_DAG
 
 # **定义数据存储的根目录**
-BASE_DIR = r"E:\研究生信息收集\论文材料\IoT-Event-Detector\Synchronizer\Monitor\Data"
+BASE_DIR = os.environ.get("SMART_RULE_MONITOR_DATA", os.path.join(os.path.dirname(__file__), "Data"))
 
 # **实验参数**
 NUM_OF_OPERATIONS = [1, 2, 3, 4, 5]  # 扰动次数
@@ -193,21 +193,9 @@ def parse_static_log(java_class_path="concurrency.experiment.StaticRuleParser"):
     :param java_class_path: Java 类的完整路径（包名 + 类名）
     """
 
-    # 配置 Java 运行时的 classpath
-    classpath = (
-        "E:\\研究生信息收集\\论文材料\\IoT-Event-Proxy\\target\\classes;"
-        "D:\\apache-maven-3.9.0\\repository\\jakarta\\activation\\jakarta.activation-api\\1.2.1\\jakarta.activation-api-1.2.1.jar;"
-        "D:\\apache-maven-3.9.0\\repository\\com\\fasterxml\\jackson\\module\\jackson-module-jaxb-annotations\\2.12.3\\jackson-module-jaxb-annotations-2.12.3.jar;"
-        "D:\\apache-maven-3.9.0\\repository\\com\\fasterxml\\jackson\\core\\jackson-core\\2.12.3\\jackson-core-2.12.3.jar;"
-        "D:\\apache-maven-3.9.0\\repository\\org\\freemarker\\freemarker\\2.3.31\\freemarker-2.3.31.jar;"
-        "D:\\apache-maven-3.9.0\\repository\\org\\codehaus\\woodstox\\stax2-api\\4.2.1\\stax2-api-4.2.1.jar;"
-        "D:\\apache-maven-3.9.0\\repository\\com\\fasterxml\\jackson\\core\\jackson-annotations\\2.12.3\\jackson-annotations-2.12.3.jar;"
-        "D:\\apache-maven-3.9.0\\repository\\com\\google\\code\\gson\\gson\\2.8.8\\gson-2.8.8.jar;"
-        "D:\\apache-maven-3.9.0\\repository\\com\\fasterxml\\jackson\\core\\jackson-databind\\2.12.3\\jackson-databind-2.12.3.jar;"
-        "D:\\apache-maven-3.9.0\\repository\\com\\fasterxml\\jackson\\dataformat\\jackson-dataformat-xml\\2.12.3\\jackson-dataformat-xml-2.12.3.jar;"
-        "D:\\apache-maven-3.9.0\\repository\\jakarta\\xml\\bind\\jakarta.xml.bind-api\\2.3.2\\jakarta.xml.bind-api-2.3.2.jar;"
-        "D:\\apache-maven-3.9.0\\repository\\com\\fasterxml\\woodstox\\woodstox-core\\6.2.4\\woodstox-core-6.2.4.jar"
-    )
+    classpath = os.environ.get("SMART_RULE_PROXY_CLASSPATH")
+    if not classpath:
+        raise RuntimeError("SMART_RULE_PROXY_CLASSPATH must point to the built scheduler and its dependencies")
 
     try:
         result = subprocess.run(

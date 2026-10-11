@@ -1,0 +1,25 @@
+name: CI
+
+on:
+  push:
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  deterministic-analyzer:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Run unit tests
+        run: python -m unittest discover -s tests -v
+      - name: Verify deterministic fixture
+        run: |
+          python -m smart_rule_analyzer.cli examples/rulespec-v0.json --output analysis.json
+          python -c 'import json; assert json.load(open("analysis.json")) == json.load(open("examples/expected-analysis.json"))'
+      - name: Compile governed package
+        run: python -m compileall -q smart_rule_analyzer tests

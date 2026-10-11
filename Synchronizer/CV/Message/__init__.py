@@ -2,12 +2,13 @@ import time
 import redis
 from Synchronizer.CV import RuleSet
 import json
+import os
 
 # Redis 连接配置（请根据实际情况修改）
-redis_host = '114.55.74.144'
-redis_port = 6379
-redis_db = 0
-redis_password = 'whd123456'
+redis_host = os.environ["SMART_RULE_REDIS_HOST"]
+redis_port = int(os.environ.get("SMART_RULE_REDIS_PORT", "6379"))
+redis_db = int(os.environ.get("SMART_RULE_REDIS_DB", "0"))
+redis_password = os.environ["SMART_RULE_REDIS_PASSWORD"]
 
 # 创建 Redis 客户端
 redis_client = redis.StrictRedis(
