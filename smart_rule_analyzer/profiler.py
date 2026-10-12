@@ -36,12 +36,13 @@ def _identifier(value: Any, field: str) -> str:
 
 def normalize_trace(trace: Mapping[str, Any]) -> FeatureSequence:
     """Validate a TrafficTrace v1 and return ordered direction/length features."""
-    required = {"schemaVersion", "traceId", "sourceKind", "observations"}
+    required = {"schemaVersion", "traceId", "modelInputVersion", "sourceKind", "observations"}
     if not isinstance(trace, Mapping) or set(trace) != required:
-        raise ValueError("TrafficTrace requires exactly schemaVersion, traceId, sourceKind, observations")
+        raise ValueError("TrafficTrace has unsupported or missing fields")
     if not isinstance(trace["schemaVersion"], str) or not trace["schemaVersion"].startswith("1."):
         raise ValueError("unsupported TrafficTrace major version")
     _identifier(trace["traceId"], "traceId")
+    _identifier(trace["modelInputVersion"], "modelInputVersion")
     if trace["sourceKind"] not in ALLOWED_SOURCES:
         raise ValueError("sourceKind must explicitly identify instrumented-rpc or synthetic-fixture")
     observations = trace["observations"]
@@ -52,6 +53,8 @@ def normalize_trace(trace: Mapping[str, Any]) -> FeatureSequence:
 
     result: List[Feature] = []
     previous_offset = -1
+    bound_session = None
+    bound_request = None
     total_length = 0
     for observation in observations:
         expected = {"schemaVersion", "traceId", "sessionId", "requestId", "direction",
@@ -62,8 +65,12 @@ def normalize_trace(trace: Mapping[str, Any]) -> FeatureSequence:
             raise ValueError("observation schema version does not match trace")
         if observation["traceId"] != trace["traceId"]:
             raise ValueError("observation traceId does not match trace")
-        _identifier(observation["sessionId"], "sessionId")
-        _identifier(observation["requestId"], "requestId")
+        session_id = _identifier(observation["sessionId"], "sessionId")
+        request_id = _identifier(observation["requestId"], "requestId")
+        if bound_session is None:
+            bound_session, bound_request = session_id, request_id
+        elif session_id != bound_session or request_id != bound_request:
+            raise ValueError("observations must bind one sessionId and requestId")
         if observation["direction"] not in ALLOWED_DIRECTIONS:
             raise ValueError("unsupported frame direction")
         length = observation["encodedFrameLength"]

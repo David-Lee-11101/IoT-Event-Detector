@@ -16,7 +16,7 @@ def trace(trace_id, lengths, source="synthetic-fixture"):
     observations = []
     for index, length in enumerate(lengths):
         observations.append({
-            "schemaVersion": "1.0.0",
+            "schemaVersion": "1.0.2",
             "traceId": trace_id,
             "sessionId": "session-demo",
             "requestId": "request-demo",
@@ -26,7 +26,8 @@ def trace(trace_id, lengths, source="synthetic-fixture"):
             "transport": "tiny-rpc-netty",
             "protocolVersion": "1",
         })
-    return {"schemaVersion": "1.0.0", "traceId": trace_id,
+    return {"schemaVersion": "1.0.2", "traceId": trace_id,
+            "modelInputVersion": "direction-length-v1",
             "sourceKind": source, "observations": observations}
 
 
@@ -93,6 +94,32 @@ class TrafficProfilerTest(unittest.TestCase):
         oversized = trace("trace-limit", [1] * (MAX_OBSERVATIONS + 1))
         with self.assertRaisesRegex(ValueError, "observation limit"):
             normalize_trace(oversized)
+
+    def test_trace_shape_requires_valid_model_input_version_and_matching_trace_id(self):
+        missing = trace("trace-missing-version", [20])
+        del missing["modelInputVersion"]
+        with self.assertRaisesRegex(ValueError, "unsupported or missing fields"):
+            normalize_trace(missing)
+
+        malformed = trace("trace-malformed-version", [20])
+        malformed["modelInputVersion"] = "x"
+        with self.assertRaisesRegex(ValueError, "modelInputVersion"):
+            normalize_trace(malformed)
+
+        extra = trace("trace-extra-field", [20])
+        extra["observationId"] = "unsupported-observation-id"
+        with self.assertRaisesRegex(ValueError, "unsupported or missing fields"):
+            normalize_trace(extra)
+
+        mismatched = trace("trace-parent", [20])
+        mismatched["observations"][0]["traceId"] = "trace-child"
+        with self.assertRaisesRegex(ValueError, "traceId does not match"):
+            normalize_trace(mismatched)
+
+        mixed_request = trace("trace-mixed-request", [20, 21])
+        mixed_request["observations"][1]["requestId"] = "request-other"
+        with self.assertRaisesRegex(ValueError, "bind one sessionId and requestId"):
+            normalize_trace(mixed_request)
 
     def test_training_and_evaluation_fixtures_are_distinct(self):
         evaluation = trace("trace-evaluation-only", [96, 64])

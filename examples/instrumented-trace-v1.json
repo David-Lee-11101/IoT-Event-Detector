@@ -1,10 +1,11 @@
 {
-  "schemaVersion": "1.0.1",
+  "schemaVersion": "1.0.2",
   "traceId": "trace-loopback-demo",
+  "modelInputVersion": "direction-length-v1",
   "sourceKind": "instrumented-rpc",
   "observations": [
     {
-      "schemaVersion": "1.0.1",
+      "schemaVersion": "1.0.2",
       "traceId": "trace-loopback-demo",
       "sessionId": "session-loopback-demo",
       "requestId": "request-loopback-demo",
@@ -15,7 +16,7 @@
       "protocolVersion": "1"
     },
     {
-      "schemaVersion": "1.0.1",
+      "schemaVersion": "1.0.2",
       "traceId": "trace-loopback-demo",
       "sessionId": "session-loopback-demo",
       "requestId": "request-loopback-demo",

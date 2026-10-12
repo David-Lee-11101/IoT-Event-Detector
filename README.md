@@ -18,7 +18,7 @@ flowchart LR
 
 ## Verified behavior
 
-- Strictly accepts `instrumented-rpc` and `synthetic-fixture` sources; the integration path requires the former.
+- Requires a bounded `modelInputVersion` and strictly accepts `instrumented-rpc` and `synthetic-fixture` sources; the integration path requires the former.
 - Rejects payload fields, private metadata, unordered time offsets, oversized frames, excessive observations, and excessive aggregate bytes.
 - Trains one deterministic medoid per label and binds the training material, model, and output with SHA-256 hashes.
 - Uses a declared symmetric Levenshtein distance over ordered `(direction, encodedFrameLength)` features.
@@ -43,6 +43,8 @@ python -m smart_rule_analyzer.profile_cli \
 ```
 
 The demonstration trace is a sanitized contract fixture shaped like instrumentation output. System acceptance separately supplies a trace emitted by an actual TinyRPC loopback invocation before any action.
+
+The trace envelope and every full payload-free observation follow the Hub's corrected `TrafficTrace` `1.0.2` contract. `modelInputVersion` identifies the bounded feature-input format; all observations must share the envelope's schema version and trace ID and bind one session/request pair.
 
 The earlier rule analyzer remains available:
 

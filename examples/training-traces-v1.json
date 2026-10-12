@@ -11,17 +11,17 @@
       ],
       "traces": [
         {
-          "schemaVersion": "1.0.1", "traceId": "trace-training-sensor-a", "sourceKind": "synthetic-fixture",
+          "schemaVersion": "1.0.2", "traceId": "trace-training-sensor-a", "modelInputVersion": "direction-length-v1", "sourceKind": "synthetic-fixture",
           "observations": [
-            {"schemaVersion": "1.0.1", "traceId": "trace-training-sensor-a", "sessionId": "session-demo", "requestId": "request-demo", "direction": "client-to-server", "encodedFrameLength": 96, "monotonicOffsetNanos": 0, "transport": "tiny-rpc-netty", "protocolVersion": "1"},
-            {"schemaVersion": "1.0.1", "traceId": "trace-training-sensor-a", "sessionId": "session-demo", "requestId": "request-demo", "direction": "server-to-client", "encodedFrameLength": 64, "monotonicOffsetNanos": 100, "transport": "tiny-rpc-netty", "protocolVersion": "1"}
+            {"schemaVersion": "1.0.2", "traceId": "trace-training-sensor-a", "sessionId": "session-demo", "requestId": "request-demo", "direction": "client-to-server", "encodedFrameLength": 96, "monotonicOffsetNanos": 0, "transport": "tiny-rpc-netty", "protocolVersion": "1"},
+            {"schemaVersion": "1.0.2", "traceId": "trace-training-sensor-a", "sessionId": "session-demo", "requestId": "request-demo", "direction": "server-to-client", "encodedFrameLength": 64, "monotonicOffsetNanos": 100, "transport": "tiny-rpc-netty", "protocolVersion": "1"}
           ]
         },
         {
-          "schemaVersion": "1.0.1", "traceId": "trace-training-sensor-b", "sourceKind": "synthetic-fixture",
+          "schemaVersion": "1.0.2", "traceId": "trace-training-sensor-b", "modelInputVersion": "direction-length-v1", "sourceKind": "synthetic-fixture",
           "observations": [
-            {"schemaVersion": "1.0.1", "traceId": "trace-training-sensor-b", "sessionId": "session-demo", "requestId": "request-demo", "direction": "client-to-server", "encodedFrameLength": 96, "monotonicOffsetNanos": 0, "transport": "tiny-rpc-netty", "protocolVersion": "1"},
-            {"schemaVersion": "1.0.1", "traceId": "trace-training-sensor-b", "sessionId": "session-demo", "requestId": "request-demo", "direction": "server-to-client", "encodedFrameLength": 65, "monotonicOffsetNanos": 100, "transport": "tiny-rpc-netty", "protocolVersion": "1"}
+            {"schemaVersion": "1.0.2", "traceId": "trace-training-sensor-b", "sessionId": "session-demo", "requestId": "request-demo", "direction": "client-to-server", "encodedFrameLength": 96, "monotonicOffsetNanos": 0, "transport": "tiny-rpc-netty", "protocolVersion": "1"},
+            {"schemaVersion": "1.0.2", "traceId": "trace-training-sensor-b", "sessionId": "session-demo", "requestId": "request-demo", "direction": "server-to-client", "encodedFrameLength": 65, "monotonicOffsetNanos": 100, "transport": "tiny-rpc-netty", "protocolVersion": "1"}
           ]
         }
       ]
@@ -33,19 +33,19 @@
       ],
       "traces": [
         {
-          "schemaVersion": "1.0.1", "traceId": "trace-training-device-a", "sourceKind": "synthetic-fixture",
+          "schemaVersion": "1.0.2", "traceId": "trace-training-device-a", "modelInputVersion": "direction-length-v1", "sourceKind": "synthetic-fixture",
           "observations": [
-            {"schemaVersion": "1.0.1", "traceId": "trace-training-device-a", "sessionId": "session-demo", "requestId": "request-demo", "direction": "client-to-server", "encodedFrameLength": 128, "monotonicOffsetNanos": 0, "transport": "tiny-rpc-netty", "protocolVersion": "1"},
-            {"schemaVersion": "1.0.1", "traceId": "trace-training-device-a", "sessionId": "session-demo", "requestId": "request-demo", "direction": "server-to-client", "encodedFrameLength": 48, "monotonicOffsetNanos": 100, "transport": "tiny-rpc-netty", "protocolVersion": "1"},
-            {"schemaVersion": "1.0.1", "traceId": "trace-training-device-a", "sessionId": "session-demo", "requestId": "request-demo", "direction": "client-to-server", "encodedFrameLength": 48, "monotonicOffsetNanos": 200, "transport": "tiny-rpc-netty", "protocolVersion": "1"}
+            {"schemaVersion": "1.0.2", "traceId": "trace-training-device-a", "sessionId": "session-demo", "requestId": "request-demo", "direction": "client-to-server", "encodedFrameLength": 128, "monotonicOffsetNanos": 0, "transport": "tiny-rpc-netty", "protocolVersion": "1"},
+            {"schemaVersion": "1.0.2", "traceId": "trace-training-device-a", "sessionId": "session-demo", "requestId": "request-demo", "direction": "server-to-client", "encodedFrameLength": 48, "monotonicOffsetNanos": 100, "transport": "tiny-rpc-netty", "protocolVersion": "1"},
+            {"schemaVersion": "1.0.2", "traceId": "trace-training-device-a", "sessionId": "session-demo", "requestId": "request-demo", "direction": "client-to-server", "encodedFrameLength": 48, "monotonicOffsetNanos": 200, "transport": "tiny-rpc-netty", "protocolVersion": "1"}
           ]
         },
         {
-          "schemaVersion": "1.0.1", "traceId": "trace-training-device-b", "sourceKind": "synthetic-fixture",
+          "schemaVersion": "1.0.2", "traceId": "trace-training-device-b", "modelInputVersion": "direction-length-v1", "sourceKind": "synthetic-fixture",
           "observations": [
-            {"schemaVersion": "1.0.1", "traceId": "trace-training-device-b", "sessionId": "session-demo", "requestId": "request-demo", "direction": "client-to-server", "encodedFrameLength": 127, "monotonicOffsetNanos": 0, "transport": "tiny-rpc-netty", "protocolVersion": "1"},
-            {"schemaVersion": "1.0.1", "traceId": "trace-training-device-b", "sessionId": "session-demo", "requestId": "request-demo", "direction": "server-to-client", "encodedFrameLength": 48, "monotonicOffsetNanos": 100, "transport": "tiny-rpc-netty", "protocolVersion": "1"},
-            {"schemaVersion": "1.0.1", "traceId": "trace-training-device-b", "sessionId": "session-demo", "requestId": "request-demo", "direction": "client-to-server", "encodedFrameLength": 48, "monotonicOffsetNanos": 200, "transport": "tiny-rpc-netty", "protocolVersion": "1"}
+            {"schemaVersion": "1.0.2", "traceId": "trace-training-device-b", "sessionId": "session-demo", "requestId": "request-demo", "direction": "client-to-server", "encodedFrameLength": 127, "monotonicOffsetNanos": 0, "transport": "tiny-rpc-netty", "protocolVersion": "1"},
+            {"schemaVersion": "1.0.2", "traceId": "trace-training-device-b", "sessionId": "session-demo", "requestId": "request-demo", "direction": "server-to-client", "encodedFrameLength": 48, "monotonicOffsetNanos": 100, "transport": "tiny-rpc-netty", "protocolVersion": "1"},
+            {"schemaVersion": "1.0.2", "traceId": "trace-training-device-b", "sessionId": "session-demo", "requestId": "request-demo", "direction": "client-to-server", "encodedFrameLength": 48, "monotonicOffsetNanos": 200, "transport": "tiny-rpc-netty", "protocolVersion": "1"}
           ]
         }
       ]

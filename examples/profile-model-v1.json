@@ -1,6 +1,6 @@
 {
   "ambiguityMargin": 0,
-  "fixtureHash": "f7f670d9a5ca6400c0a39591ddb7187fd804e620c121afc44ac1938b0164b2b3",
+  "fixtureHash": "e4823f9a11117dd79b4e4a70ace6644930f19e13e4f60757756c006e03fce136",
   "medoids": [
     {
       "features": [
@@ -33,7 +33,7 @@
       "label": "sensor-read"
     }
   ],
-  "modelHash": "ae2bb856bf3e9a43dc751541de64c0c197984573d5065dd4d9dbf41b7111122e",
+  "modelHash": "6b6d5b164c71f709735ab3a99a555a85d0eeab361dc94d858fe80b9f671b3b7d",
   "modelVersion": "traffic-profile-v1",
   "profilePatterns": [
     {
