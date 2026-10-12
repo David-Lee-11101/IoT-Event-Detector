@@ -8,7 +8,7 @@ permissions:
   contents: read
 
 jobs:
-  deterministic-analyzer:
+  traffic-profiling:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -21,5 +21,10 @@ jobs:
         run: |
           python -m smart_rule_analyzer.cli examples/rulespec-v0.json --output analysis.json
           python -c 'import json; assert json.load(open("analysis.json")) == json.load(open("examples/expected-analysis.json"))'
+      - name: Verify instrumented trace adapter
+        run: |
+          python -m smart_rule_analyzer.model_cli --training examples/training-traces-v1.json --output trained-model.json
+          cmp trained-model.json examples/profile-model-v1.json
+          python -m smart_rule_analyzer.profile_cli --trace examples/instrumented-trace-v1.json --model examples/profile-model-v1.json --output profile-evidence.json --produced-at 2026-01-01T00:00:00Z
       - name: Compile governed package
         run: python -m compileall -q smart_rule_analyzer tests

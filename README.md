@@ -1,91 +1,70 @@
-![SmartRule-Conflict-Analyzer architecture card](assets/hero.svg)
+![SmartHome Traffic Profiling architecture card](assets/hero.svg)
 
-# SmartRule-Conflict-Analyzer
+# SmartHome-Traffic-Profiling
 
-A research repository for detecting interactions among IoT automation rules. It includes historical Apriori experiments, real-user and IFTTT matchers, synchronization simulations, and a small deterministic analyzer for conflict and dependency inspection.
+A deterministic research toolkit that turns payload-free, application-instrumented TinyRPC frame traces into scheduling evidence. It profiles frame direction and encoded length, chooses reproducible medoids, measures edit distance, and explicitly reports known, anomalous, ambiguous, and unknown traffic shapes.
 
-> **Research status:** the governed CLI is reproducible and covered by tests. Historical experiments depend on datasets, devices, databases, or services that are not distributed with this repository and are not part of the supported path.
-
-## What the analyzer detects
-
-The deterministic path retains two core ideas already present in the research code:
-
-- **Write conflict:** two rules assign different states to the same action device.
-- **Dependency:** an earlier rule's action device is used by a later rule as an action or trigger device.
-
-Rules that write the same state are not reported as conflicts. Dependency direction follows fixture order, producing a directed acyclic graph for the supplied example.
+The profiler is the observation layer of the Smart Home Edge Computing System. It runs before a device action: TinyRPC emits a trace, this component creates `ProfileEvidence`, and the scheduler uses that exact evidence to proceed, reorder, defer, or abstain.
 
 ```mermaid
 flowchart LR
-    Fixture[RuleSpec v0 JSON] --> Validation[Immutable validated model]
-    Validation --> Conflict[Different writes to one device]
-    Validation --> Dependency[Action-to-action or action-to-trigger edge]
-    Conflict --> JSON[Deterministic analysis JSON]
-    Dependency --> JSON
+    RPC[TinyRPC frame telemetry] --> Trace[Payload-free TrafficTrace]
+    Trace --> Normalize[Bounded normalization]
+    Normalize --> Distance[Direction/length edit distance]
+    Model[Versioned medoids and threshold] --> Distance
+    Distance --> Evidence[ProfileEvidence]
+    Evidence --> Policy[Thread-safe Scheduler policy]
 ```
 
-## Run the reproducible demo
+## Verified behavior
 
-The supported analyzer uses only the Python standard library and Python 3.9+.
+- Strictly accepts `instrumented-rpc` and `synthetic-fixture` sources; the integration path requires the former.
+- Rejects payload fields, private metadata, unordered time offsets, oversized frames, excessive observations, and excessive aggregate bytes.
+- Trains one deterministic medoid per label and binds the training material, model, and output with SHA-256 hashes.
+- Uses a declared symmetric Levenshtein distance over ordered `(direction, encodedFrameLength)` features.
+- Emits byte-stable evidence for a fixed trace, model, and timestamp.
+- Marks above-threshold traces as anomalous and equal nearest matches as ambiguous. Neither is forced into a known label.
+- Retains the existing RuleSpec conflict/dependency analyzer and validates the original Apriori support/confidence behavior.
+
+## Run
+
+Python 3.9+ and the standard library are sufficient for the supported path.
 
 ```bash
 python -m unittest discover -s tests -v
+python -m smart_rule_analyzer.model_cli \
+  --training examples/training-traces-v1.json \
+  --output /tmp/profile-model-v1.json
+python -m smart_rule_analyzer.profile_cli \
+  --trace examples/instrumented-trace-v1.json \
+  --model examples/profile-model-v1.json \
+  --output profile-evidence.json \
+  --produced-at 2026-01-01T00:00:00Z
+```
+
+The demonstration trace is a sanitized contract fixture shaped like instrumentation output. System acceptance separately supplies a trace emitted by an actual TinyRPC loopback invocation before any action.
+
+The earlier rule analyzer remains available:
+
+```bash
 python -m smart_rule_analyzer.cli examples/rulespec-v0.json
 ```
 
-The result can be reproduced against the checked-in expectation:
+## Structure
 
-```bash
-python -m smart_rule_analyzer.cli \
-  examples/rulespec-v0.json \
-  --output analysis.json
-python -c 'import json; assert json.load(open("analysis.json")) == json.load(open("examples/expected-analysis.json"))'
-```
+- `smart_rule_analyzer/profiler.py` — bounded trace normalization, distance, medoid model, and evidence.
+- `smart_rule_analyzer/patterns.py` — finite classification of nine historical execution-pattern families.
+- `smart_rule_analyzer/profile_cli.py` — file-based integration adapter for the Hub runner.
+- `smart_rule_analyzer/analyzer.py` — deterministic static rule conflict/dependency analysis.
+- `experiments/historical-detector/` — provenance-bound Apriori, matcher, and execution-pattern research.
+- `tests/` — exact, near, anomaly, ambiguity, bounds, deterministic-output, Apriori, and rule-analysis tests.
 
-The fixture contains both conflict and no-conflict cases, a real action-to-trigger chain, and an independent rule.
+Synchronization experiments moved to the Thread-safe Scheduler repository because they study execution control rather than traffic profiling. Both repositories retain exact source provenance.
 
-The test suite also executes the repository's original Apriori implementation against a small redistributable transaction set, checking known support, confidence, and candidate pruning. The historical algorithm remains intact rather than being replaced by the compact analyzer.
+## Evidence boundary
 
-## RuleSpec v0
+This component observes encoded frames at the TinyRPC application boundary. It does not capture packets from an operating system, router, or home network. Checked-in fixtures do not establish real-device accuracy and do not reproduce manuscript percentages. Live capture is a future adapter pending lawful, sanitized data and separate validation.
 
-```json
-{
-  "id": "close-curtain",
-  "description": "Close the curtain when rain is detected",
-  "triggers": [{"device": "weather", "state": "rain"}],
-  "conditions": [],
-  "actions": [{"device": "curtain", "state": "closed"}]
-}
-```
+## Rights
 
-All five fields are required. Unknown fields are rejected, rule IDs must be unique, and the Python model is frozen after parsing. The shape is intentionally small enough to adapt both the scheduler and the historical analyzer formats.
-
-## Repository map
-
-- `smart_rule_analyzer/` — supported deterministic model, analyzer, and CLI.
-- `examples/` — redistributable fixture and expected result.
-- `Detector/Apriori/` — historical association-rule and dataset-generation experiments.
-- `Detector/Matcher/` — real-user and IFTTT matching research.
-- `Detector/Vulnerability/` — historical vulnerability counting and graph analysis.
-- `Synchronizer/` — condition-variable, monitor, critical-section, and LLSC simulation experiments.
-
-`requirements-research.txt` pins the third-party packages imported by historical experiment families. Installing those packages does not supply their missing private datasets or external infrastructure.
-
-The research pins target Python 3.11. The governed standard-library analyzer supports Python 3.9 and later independently of that optional stack.
-
-## Safety and portability changes
-
-Executable `eval` calls in active analysis scripts were replaced with `ast.literal_eval`. The supported CLI uses JSON only. The portable example does not contain user records, credentials, or absolute machine paths.
-
-Legacy database, Redis, and device-control experiments no longer contain connection literals. They require explicit `SMART_RULE_MYSQL_*`, `SMART_RULE_REDIS_*`, or `SMART_RULE_DEVICE_*` environment variables and remain outside routine tests. Historical credentials, if they were real, must be assessed and rotated or revoked by their owner because removing them from the current tree does not remove them from Git history.
-
-## Limitations
-
-- The compact analyzer implements device-state conflicts and dependency edges; it does not claim to cover every vulnerability category in the historical studies.
-- Conditions are validated and retained but are not interpreted by the compact analyzer.
-- Historical scripts have uneven interfaces and may require unavailable datasets, MySQL, Redis, or device access.
-- The checked-in demo is functional evidence, not a performance benchmark or production validation.
-
-## License
-
-No open-source license has been selected yet. Copyright remains with the repository owner; reuse is not granted until a license is added.
+Source is available for inspection. No new reuse license is granted. GitHub Terms of Service rights for viewing and platform forking still apply; third-party packages and historical material retain their own notices and rights. See `RIGHTS.md`.
