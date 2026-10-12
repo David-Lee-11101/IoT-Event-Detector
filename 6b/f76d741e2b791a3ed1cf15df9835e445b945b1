@@ -1,0 +1,81 @@
+smart_rule_analyzer/profiler.py
+  s_7011714e525495::t_142017f1a9bce2 110,127-132,143,178-204,213-214,235-242,271,286-287
+  s_7011714e525495::t_37d018c6df21b2 7,32,142,144-147,176,206,223-224,264,267-268
+  s_7011714e525495::t_9ed688c74d07ef 243-247
+  s_7011714e525495::t_ed9d6c4d8d142e 4
+  s_7011714e525495::t_2b5ab11977879e 273
+  s_7011714e525495::t_d70ced9a968beb 1-3,5-6,8-31,33-109,111-126,133-141,148-175,177,205,207-212,215-222,225-234,248-263,265-266,269-270,272,274-285,288-293
+.gitignore
+  s_7011714e525495::t_34b81206780f82 13-16
+tests/test_patterns.py
+  s_7011714e525495::t_142017f1a9bce2 1-30,34
+smart_rule_analyzer/__init__.py
+  s_7011714e525495::t_d70ced9a968beb 5,8-10,12
+  s_7011714e525495::t_142017f1a9bce2 6,11
+docs/CLEANUP_PLAN.md
+  s_7011714e525495::t_d70ced9a968beb 1,3,5-7,9,11-17,19,21-22
+tests/test_original_apriori.py
+  s_7011714e525495::t_d4c6b9f78e1bf2 1-2,5-13
+experiments/historical-detector/source/Vulnerability/VulnerCount.py
+  s_7011714e525495::t_bb9d393f8410ae 158,589,630,655,695
+smart_rule_analyzer/profile_cli.py
+  s_7011714e525495::t_d70ced9a968beb 1,3-4,6,9-21,24-25
+docs/CONTRACT_BASELINE.md
+  s_7011714e525495::t_2b5ab11977879e 1-9
+smart_rule_analyzer/patterns.py
+  s_7011714e525495::t_142017f1a9bce2 1-67
+experiments/historical-detector/source/Vulnerability/Graph/AprioriGraph.py
+  s_7011714e525495::t_6a329ea3e7104f 117
+assets/hero.svg
+  s_7011714e525495::t_8ff382ea9e8099 2-4
+.github/ISSUE_TEMPLATE/config.yml
+  s_7011714e525495::t_dbc1de73ba45c4 4
+examples/instrumented-trace-v1.json
+  s_7011714e525495::t_2b5ab11977879e 2,7,18
+  s_7011714e525495::t_0fe0b709565101 1,3-6,8-17,19-29
+pyproject.toml
+  s_7011714e525495::t_0fe0b709565101 6,8
+examples/profile-model-v1.json
+  s_7011714e525495::t_0fe0b709565101 1-2,4-20,22,45-47
+  s_7011714e525495::t_207ef16b891e09 48-62
+  s_7011714e525495::t_9b98c509158402 3,21,23-44
+README.md
+  s_7011714e525495::t_b0b03e11bb319a 1,3,5,7,11-16,19,21-27,29,31,34,38-42,45,47,49-50,53,55,57-60,62,64,66,68
+  s_7011714e525495::t_280de2262f3aa0 70
+  s_7011714e525495::t_dca020e62bf317 35-37,56
+RIGHTS.md
+  s_7011714e525495::t_280de2262f3aa0 1-5
+.github/workflows/ci.yml
+  s_7011714e525495::t_5c81ecaeef8c92 11,24
+  s_7011714e525495::t_dca020e62bf317 25-28
+experiments/historical-detector/source/Vulnerability/RunRules.py
+  s_7011714e525495::t_5419b2e4809689 150,152
+experiments/historical-detector/README.md
+  s_7011714e525495::t_0fe0b709565101 1-7
+examples/training-traces-v1.json
+  s_7011714e525495::t_dca020e62bf317 1-54
+smart_rule_analyzer/model_cli.py
+  s_7011714e525495::t_dca020e62bf317 1-30,34
+tests/test_profiler.py
+  s_7011714e525495::t_9ed688c74d07ef 103-108
+  s_7011714e525495::t_d4cb6e4e58cd33 39-46,56-57,65-66
+  s_7011714e525495::t_d70ced9a968beb 1-38,47-55,58-64,67-102,109-126,130
+experiments/historical-detector/PROVENANCE.json
+  s_7011714e525495::t_0fe0b709565101 1-9
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.24",
+  "base_commit_sha": "6bf76d741e2b791a3ed1cf15df9835e445b945b1",
+  "prompts": {},
+  "sessions": {
+    "s_7011714e525495": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a12529-718f-7053-849a-2fa10f2720ee",
+        "model": "gpt-5.6-sol"
+      },
+      "human_author": null
+    }
+  }
+}
