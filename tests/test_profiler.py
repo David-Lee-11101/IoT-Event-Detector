@@ -121,6 +121,25 @@ class TrafficProfilerTest(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, "bind one sessionId and requestId"):
             normalize_trace(mixed_request)
 
+    def test_rejects_malformed_schema_and_overlong_protocol(self):
+        for version in ("1.", "1.any", "1.0.2-extra"):
+            sample = trace("trace-invalid-version", [20])
+            sample["schemaVersion"] = version
+            sample["observations"][0]["schemaVersion"] = version
+            with self.assertRaises(ValueError):
+                normalize_trace(sample)
+        sample = trace("trace-invalid-protocol", [20])
+        sample["observations"][0]["protocolVersion"] = "x" * 33
+        with self.assertRaises(ValueError):
+            normalize_trace(sample)
+
+    def test_rejects_malformed_medoid_objects(self):
+        for medoid in (None, [], {"label": "sensor-read", "features": [], "extra": True}):
+            value = self.model.to_dict()
+            value["medoids"] = [medoid]
+            with self.assertRaises(ValueError):
+                ProfileModel.from_dict(value)
+
     def test_training_and_evaluation_fixtures_are_distinct(self):
         evaluation = trace("trace-evaluation-only", [96, 64])
         evidence = classify(evaluation, self.model)

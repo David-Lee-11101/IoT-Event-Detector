@@ -65,7 +65,7 @@ Synchronization experiments moved to the Thread-safe Scheduler repository becaus
 
 ## Evidence boundary
 
-This component observes encoded frames at the TinyRPC application boundary. It does not capture packets from an operating system, router, or home network. Checked-in fixtures do not establish real-device accuracy and do not reproduce manuscript percentages. Live capture is a future adapter pending lawful, sanitized data and separate validation.
+This component observes encoded frames at the TinyRPC application boundary. It does not capture packets from an operating system, router, or home network. Checked-in fixtures do not establish real-device accuracy and do not reproduce manuscript percentages. Live capture is a future adapter pending lawful, sanitized data and separate validation. Relative monotonic times are validated for ordering but do not contribute to the current direction/length distance. Timing features require a separately versioned model and research validation.
 
 ## Rights
 

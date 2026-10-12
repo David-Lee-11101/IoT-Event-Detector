@@ -39,7 +39,7 @@ def normalize_trace(trace: Mapping[str, Any]) -> FeatureSequence:
     required = {"schemaVersion", "traceId", "modelInputVersion", "sourceKind", "observations"}
     if not isinstance(trace, Mapping) or set(trace) != required:
         raise ValueError("TrafficTrace has unsupported or missing fields")
-    if not isinstance(trace["schemaVersion"], str) or not trace["schemaVersion"].startswith("1."):
+    if not isinstance(trace["schemaVersion"], str) or re.fullmatch(r"1\.[0-9]+\.[0-9]+", trace["schemaVersion"]) is None:
         raise ValueError("unsupported TrafficTrace major version")
     _identifier(trace["traceId"], "traceId")
     _identifier(trace["modelInputVersion"], "modelInputVersion")
@@ -81,7 +81,7 @@ def normalize_trace(trace: Mapping[str, Any]) -> FeatureSequence:
             raise ValueError("monotonic offsets must be non-negative and ordered")
         if observation["transport"] != "tiny-rpc-netty":
             raise ValueError("only tiny-rpc-netty instrumented frames are supported")
-        if not isinstance(observation["protocolVersion"], str) or not observation["protocolVersion"]:
+        if not isinstance(observation["protocolVersion"], str) or not 1 <= len(observation["protocolVersion"]) <= 32:
             raise ValueError("protocolVersion is required")
         previous_offset = offset
         total_length += length
@@ -150,7 +150,7 @@ class ProfileModel:
                    "fixtureHash", "medoids", "profilePatterns", "modelHash"}
         if set(value) != allowed:
             raise ValueError("model has unsupported or missing fields")
-        if not isinstance(value.get("schemaVersion"), str) or not value["schemaVersion"].startswith("1."):
+        if not isinstance(value.get("schemaVersion"), str) or re.fullmatch(r"1\.[0-9]+\.[0-9]+", value["schemaVersion"]) is None:
             raise ValueError("unsupported model major version")
         version = _identifier(value.get("modelVersion"), "modelVersion")
         threshold = value.get("threshold")
@@ -162,13 +162,15 @@ class ProfileModel:
         if not isinstance(raw_medoids, list) or not raw_medoids or len(raw_medoids) > MAX_PROFILES:
             raise ValueError("medoids must be a bounded non-empty array")
         for medoid in raw_medoids:
+            if not isinstance(medoid, Mapping) or set(medoid) != {"label", "features"}:
+                raise ValueError("invalid medoid shape")
             label = _identifier(medoid.get("label"), "label")
             features = medoid.get("features")
             if not isinstance(features, list) or not features or len(features) > MAX_OBSERVATIONS:
                 raise ValueError("medoid features must be a bounded non-empty array")
             normalized: List[Feature] = []
             for feature in features:
-                if set(feature) != {"direction", "encodedFrameLength"}:
+                if not isinstance(feature, Mapping) or set(feature) != {"direction", "encodedFrameLength"}:
                     raise ValueError("invalid medoid feature shape")
                 if feature["direction"] not in ALLOWED_DIRECTIONS:
                     raise ValueError("invalid medoid direction")
