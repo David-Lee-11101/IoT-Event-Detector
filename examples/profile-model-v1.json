@@ -1,0 +1,62 @@
+{
+  "ambiguityMargin": 0,
+  "fixtureHash": "e4823f9a11117dd79b4e4a70ace6644930f19e13e4f60757756c006e03fce136",
+  "medoids": [
+    {
+      "features": [
+        {
+          "direction": "client-to-server",
+          "encodedFrameLength": 127
+        },
+        {
+          "direction": "server-to-client",
+          "encodedFrameLength": 48
+        },
+        {
+          "direction": "client-to-server",
+          "encodedFrameLength": 48
+        }
+      ],
+      "label": "device-write"
+    },
+    {
+      "features": [
+        {
+          "direction": "client-to-server",
+          "encodedFrameLength": 96
+        },
+        {
+          "direction": "server-to-client",
+          "encodedFrameLength": 64
+        }
+      ],
+      "label": "sensor-read"
+    }
+  ],
+  "modelHash": "6b6d5b164c71f709735ab3a99a555a85d0eeab361dc94d858fe80b9f671b3b7d",
+  "modelVersion": "traffic-profile-v1",
+  "profilePatterns": [
+    {
+      "label": "device-write",
+      "patterns": [
+        {
+          "details": "write-shaped profile requires conservative ordering",
+          "kind": "conflict",
+          "status": "violated"
+        }
+      ]
+    },
+    {
+      "label": "sensor-read",
+      "patterns": [
+        {
+          "details": "request frame precedes response frame",
+          "kind": "ordering",
+          "status": "matched"
+        }
+      ]
+    }
+  ],
+  "schemaVersion": "1.0.0",
+  "threshold": 1
+}

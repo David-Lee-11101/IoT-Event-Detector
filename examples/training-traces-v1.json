@@ -1,0 +1,54 @@
+{
+  "schemaVersion": "1.0.0",
+  "modelVersion": "traffic-profile-v1",
+  "threshold": 1,
+  "ambiguityMargin": 0,
+  "labels": [
+    {
+      "label": "sensor-read",
+      "patterns": [
+        {"kind": "ordering", "status": "matched", "details": "request frame precedes response frame"}
+      ],
+      "traces": [
+        {
+          "schemaVersion": "1.0.2", "traceId": "trace-training-sensor-a", "modelInputVersion": "direction-length-v1", "sourceKind": "synthetic-fixture",
+          "observations": [
+            {"schemaVersion": "1.0.2", "traceId": "trace-training-sensor-a", "sessionId": "session-demo", "requestId": "request-demo", "direction": "client-to-server", "encodedFrameLength": 96, "monotonicOffsetNanos": 0, "transport": "tiny-rpc-netty", "protocolVersion": "1"},
+            {"schemaVersion": "1.0.2", "traceId": "trace-training-sensor-a", "sessionId": "session-demo", "requestId": "request-demo", "direction": "server-to-client", "encodedFrameLength": 64, "monotonicOffsetNanos": 100, "transport": "tiny-rpc-netty", "protocolVersion": "1"}
+          ]
+        },
+        {
+          "schemaVersion": "1.0.2", "traceId": "trace-training-sensor-b", "modelInputVersion": "direction-length-v1", "sourceKind": "synthetic-fixture",
+          "observations": [
+            {"schemaVersion": "1.0.2", "traceId": "trace-training-sensor-b", "sessionId": "session-demo", "requestId": "request-demo", "direction": "client-to-server", "encodedFrameLength": 96, "monotonicOffsetNanos": 0, "transport": "tiny-rpc-netty", "protocolVersion": "1"},
+            {"schemaVersion": "1.0.2", "traceId": "trace-training-sensor-b", "sessionId": "session-demo", "requestId": "request-demo", "direction": "server-to-client", "encodedFrameLength": 65, "monotonicOffsetNanos": 100, "transport": "tiny-rpc-netty", "protocolVersion": "1"}
+          ]
+        }
+      ]
+    },
+    {
+      "label": "device-write",
+      "patterns": [
+        {"kind": "conflict", "status": "violated", "details": "write-shaped profile requires conservative ordering"}
+      ],
+      "traces": [
+        {
+          "schemaVersion": "1.0.2", "traceId": "trace-training-device-a", "modelInputVersion": "direction-length-v1", "sourceKind": "synthetic-fixture",
+          "observations": [
+            {"schemaVersion": "1.0.2", "traceId": "trace-training-device-a", "sessionId": "session-demo", "requestId": "request-demo", "direction": "client-to-server", "encodedFrameLength": 128, "monotonicOffsetNanos": 0, "transport": "tiny-rpc-netty", "protocolVersion": "1"},
+            {"schemaVersion": "1.0.2", "traceId": "trace-training-device-a", "sessionId": "session-demo", "requestId": "request-demo", "direction": "server-to-client", "encodedFrameLength": 48, "monotonicOffsetNanos": 100, "transport": "tiny-rpc-netty", "protocolVersion": "1"},
+            {"schemaVersion": "1.0.2", "traceId": "trace-training-device-a", "sessionId": "session-demo", "requestId": "request-demo", "direction": "client-to-server", "encodedFrameLength": 48, "monotonicOffsetNanos": 200, "transport": "tiny-rpc-netty", "protocolVersion": "1"}
+          ]
+        },
+        {
+          "schemaVersion": "1.0.2", "traceId": "trace-training-device-b", "modelInputVersion": "direction-length-v1", "sourceKind": "synthetic-fixture",
+          "observations": [
+            {"schemaVersion": "1.0.2", "traceId": "trace-training-device-b", "sessionId": "session-demo", "requestId": "request-demo", "direction": "client-to-server", "encodedFrameLength": 127, "monotonicOffsetNanos": 0, "transport": "tiny-rpc-netty", "protocolVersion": "1"},
+            {"schemaVersion": "1.0.2", "traceId": "trace-training-device-b", "sessionId": "session-demo", "requestId": "request-demo", "direction": "server-to-client", "encodedFrameLength": 48, "monotonicOffsetNanos": 100, "transport": "tiny-rpc-netty", "protocolVersion": "1"},
+            {"schemaVersion": "1.0.2", "traceId": "trace-training-device-b", "sessionId": "session-demo", "requestId": "request-demo", "direction": "client-to-server", "encodedFrameLength": 48, "monotonicOffsetNanos": 200, "transport": "tiny-rpc-netty", "protocolVersion": "1"}
+          ]
+        }
+      ]
+    }
+  ]
+}

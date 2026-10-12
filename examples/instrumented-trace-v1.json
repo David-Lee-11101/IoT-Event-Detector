@@ -1,0 +1,30 @@
+{
+  "schemaVersion": "1.0.2",
+  "traceId": "trace-loopback-demo",
+  "modelInputVersion": "direction-length-v1",
+  "sourceKind": "instrumented-rpc",
+  "observations": [
+    {
+      "schemaVersion": "1.0.2",
+      "traceId": "trace-loopback-demo",
+      "sessionId": "session-loopback-demo",
+      "requestId": "request-loopback-demo",
+      "direction": "client-to-server",
+      "encodedFrameLength": 96,
+      "monotonicOffsetNanos": 0,
+      "transport": "tiny-rpc-netty",
+      "protocolVersion": "1"
+    },
+    {
+      "schemaVersion": "1.0.2",
+      "traceId": "trace-loopback-demo",
+      "sessionId": "session-loopback-demo",
+      "requestId": "request-loopback-demo",
+      "direction": "server-to-client",
+      "encodedFrameLength": 64,
+      "monotonicOffsetNanos": 100,
+      "transport": "tiny-rpc-netty",
+      "protocolVersion": "1"
+    }
+  ]
+}

@@ -3,9 +3,9 @@ requires = ["setuptools==75.3.2"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "smart-rule-conflict-analyzer"
+name = "smart-home-traffic-profiling"
 version = "0.1.0"
-description = "Deterministic rule conflict and dependency analysis for IoT automation research"
+description = "Deterministic payload-free TinyRPC traffic profiling for smart-home research"
 requires-python = ">=3.9"
 
 [tool.setuptools]

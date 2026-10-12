@@ -1,0 +1,9 @@
+{
+  "sourceRepository": "David-Lee-11101/SmartRule-Conflict-Analyzer",
+  "sourceCommit": "cc4ae68d38a9391c931d09c6786ded422a76cb6d",
+  "sourcePath": "Detector",
+  "sourceTreeGitSha1": "b6c6b55c15531d8e732ac5ca664fcb2d3d164024",
+  "destinationPath": "experiments/historical-detector/source",
+  "privacyRewrite": "Private machine paths were replaced by the neutral research-data placeholder in the current tree.",
+  "capabilityBoundary": "Historical research material; not the supported profiling runtime."
+}

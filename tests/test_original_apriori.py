@@ -1,6 +1,16 @@
+import importlib.util
+from pathlib import Path
 import unittest
 
-from Detector.Apriori.Apriori import generate_L, generate_big_rules
+
+MODULE_PATH = (Path(__file__).resolve().parents[1] / "experiments" / "historical-detector"
+               / "source" / "Apriori" / "Apriori.py")
+SPEC = importlib.util.spec_from_file_location("historical_apriori", MODULE_PATH)
+historical_apriori = importlib.util.module_from_spec(SPEC)
+assert SPEC.loader is not None
+SPEC.loader.exec_module(historical_apriori)
+generate_L = historical_apriori.generate_L
+generate_big_rules = historical_apriori.generate_big_rules
 
 
 class OriginalAprioriTest(unittest.TestCase):

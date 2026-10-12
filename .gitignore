@@ -10,5 +10,7 @@ dist/
 analysis.json
 *.npy
 *.csv
-/Detector/Datasets/
-/Detector/Matcher/IFTTT/TAWFST-main/
+/experiments/historical-detector/source/Datasets/
+/experiments/historical-detector/source/Matcher/IFTTT/TAWFST-main/
+profile-evidence.json
+research-data/
